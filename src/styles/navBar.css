@@ -1,0 +1,56 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #222; /* Dark background */
+    color: #fff; /* White text */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+}
+
+.navbar-brand {
+    font-size: 24px; /* Logo size */
+    font-weight: bold; /* Bold font */
+    color: #ff5e00;
+}
+
+.navbar-links {
+    display: flex;
+    gap: 20px; /* Space between links */
+    color: #f78c00;
+}
+
+.navbar-links {
+    color: #ff6600; /* White text */
+    text-decoration: none; /* No underline */
+    font-size: 18px; /* Link font size */
+    transition: color 0.3s; /* Smooth color transition */
+}
+
+.navbar-link.active {
+    color: #06ca20; /* Active link color */
+}
+
+.navbar-link:hover {
+    color: #f78c00; /* Color on hover */
+}
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-button {
+    background-color: #000000; /* Button background */
+    color: #ff5e00; /* Button text color */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners */
+    padding: 10px 15px; /* Padding */
+    cursor: pointer; /* Pointer on hover */
+    margin-left: 20px; /* Space to the left */
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+.navbar-button:hover {
+    background-color: #f78c00; /* Darker shade on hover */
+}

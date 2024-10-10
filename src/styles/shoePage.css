@@ -1,0 +1,60 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: black;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    color: #ff7708;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.shoes-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.shoe-item {
+    border: 1px solid #9c3900;
+    border-radius: 8px;
+    background: #000000;
+    text-align: center;
+    width: 200px;
+    transition: transform 0.3s ease;
+    padding: 10px;
+}
+
+.shoe-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.shoe-item h3 {
+    margin: 10px 0;
+    color: #ff7708;
+}
+
+.shoe-item p {
+    color: #b0f074;
+}
+
+.shoe-item:hover {
+    transform: scale(1.35);
+}
+
+.error {
+    color: red;
+    text-align: center;
+}
+
+.shoe-page h1{
+    color: #ff7708;
+    background: #000000;
+}

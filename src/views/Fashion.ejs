@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Collection</title>
+    <link rel="stylesheet" href="/App.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <iframe id="background-video" src="https://www.youtube.com/embed/snY-MhPcPg0?autoplay=1&loop=1&playlist=snY-MhPcPg0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+    <h1>Fashion Collection</h1>
+
+    <input type="text" id="search-bar" placeholder="Search items..." />
+
+    <h2>Clothing</h2>
+    <div class="clothing-gallery">
+        <% clothing.forEach(item => { %>
+            <div class="clothing-item" data-id="<%= item.id %>">
+                <a href="/fashion/clothing/<%= item.id %>">
+                    <img src="<%= item.imageUrl %>" alt="<%= item.item %>">
+                    <p><%= item.brand %> - <%= item.item %></p>
+                </a>
+                <button class="like-btn">Like</button>
+                <span class="likes-count"><%= item.likes || 0 %> likes</span>
+                <div class="comments-section">
+                    <ul class="comments-list">
+                        <% (item.comments || []).forEach(comment => { %>
+                            <li><%= comment.text %></li>
+                        <% }); %>
+                    </ul>
+                    <input type="text" class="comment-input" placeholder="Add a comment">
+                    <button class="add-comment-btn">Add Comment</button>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+
+    <h2>Shoes</h2>
+    <div class="shoes-gallery">
+        <% shoes.forEach(shoe => { %>
+            <div class="shoes-item" data-id="<%= shoe.id %>">
+                <a href="/fashion/shoes/<%= shoe.id %>">
+                    <img src="<%= shoe.imageUrl %>" alt="<%= shoe.name %>">
+                    <p><%= shoe.brand %> - <%= shoe.name %></p>
+                </a>
+                <button class="like-btn">Like</button>
+                <span class="likes-count"><%= shoe.likes || 0 %> likes</span>
+                <div class="comments-section">
+                    <ul class="comments-list">
+                        <% (shoe.comments || []).forEach(comment => { %>
+                            <li><%= comment.text %></li>
+                        <% }); %>
+                    </ul>
+                    <input type="text" class="comment-input" placeholder="Add a comment">
+                    <button class="add-comment-btn">Add Comment</button>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+
+    <h2>Accessories</h2>
+    <div class="accessories-gallery">
+        <% accessories.forEach(accessory => { %>
+            <div class="accessory-item" data-id="<%= accessory.id %>">
+                <a href="/fashion/accessories/<%= accessory.id %>">
+                    <img src="<%= accessory.imageUrl %>" alt="<%= accessory.item %>">
+                    <p><%= accessory.brand %> - <%= accessory.item %></p>
+                </a>
+                <button class="like-btn">Like</button>
+                <span class="likes-count"><%= accessory.likes || 0 %> likes</span>
+                <div class="comments-section">
+                    <ul class="comments-list">
+                        <% (accessory.comments || []).forEach(comment => { %>
+                            <li><%= comment.text %></li>
+                        <% }); %>
+                    </ul>
+                    <input type="text" class="comment-input" placeholder="Add a comment">
+                    <button class="add-comment-btn">Add Comment</button>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Like button functionality
+            const setupLikeButtons = (itemClass, apiEndpoint) => {
+                document.querySelectorAll(`${itemClass} .like-btn`).forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const itemId = btn.closest(itemClass).dataset.id;
+                        fetch(`${apiEndpoint}/${itemId}/like`, { method: 'POST' })
+                            .then(response => response.json())
+                            .then(data => {
+                                btn.nextElementSibling.textContent = `${data.likes} likes`;
+                            });
+                    });
+                });
+            };
+
+            setupLikeButtons('.clothing-item', '/fashion/clothing');
+            setupLikeButtons('.shoes-item', '/fashion/shoes');
+            setupLikeButtons('.accessory-item', '/fashion/accessories');
+
+            // Comment button functionality
+            const setupCommentButtons = (itemClass, apiEndpoint) => {
+                document.querySelectorAll(`${itemClass} .add-comment-btn`).forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const itemId = btn.closest(itemClass).dataset.id;
+                        const commentInput = btn.previousElementSibling;
+                        const comment = commentInput.value;
+                        fetch(`${apiEndpoint}/${itemId}/comments`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ text: comment })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            const commentsList = btn.previousElementSibling.previousElementSibling;
+                            const li = document.createElement('li');
+                            li.textContent = comment;
+                            commentsList.appendChild(li);
+                            commentInput.value = '';
+                        });
+                    });
+                });
+            };
+
+            setupCommentButtons('.clothing-item', '/fashion/clothing');
+            setupCommentButtons('.shoes-item', '/fashion/shoes');
+            setupCommentButtons('.accessory-item', '/fashion/accessories');
+
+            // Search functionality
+            document.getElementById('search-bar').addEventListener('input', function() {
+                const query = this.value.toLowerCase();
+                const items = document.querySelectorAll('.clothing-item, .shoes-item, .accessory-item');
+
+                items.forEach(item => {
+                    const brand = item.querySelector('p').textContent.toLowerCase();
+                    item.style.display = brand.includes(query) ? '' : 'none';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
